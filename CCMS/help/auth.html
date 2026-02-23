@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Authentication – CCMS Help</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <button class="topbar__menu-btn" aria-label="Toggle menu">&#9776;</button>
+  <a href="index.html" class="topbar__logo">
+    <div class="topbar__logo-icon">D4P</div>
+    <div>
+      <div class="topbar__product">CCMS Help</div>
+      <div class="topbar__subtitle">Cloud Customer Management Solution</div>
+    </div>
+  </a>
+  <div class="topbar__spacer"></div>
+  <span class="topbar__version">v0.0.2.0 · BC 27.0+</span>
+</header>
+
+<div class="shell">
+  <nav class="sidebar" aria-label="Help navigation">
+    <div class="sidebar__inner">
+      <span class="sidebar__section-title">Documentation</span>
+      <ul class="sidebar__nav">
+        <li><a href="index.html"><span class="nav-icon">🏠</span>Home</a></li>
+        <li><a href="getting-started.html"><span class="nav-icon">🚀</span>Getting Started</a></li>
+      </ul>
+      <span class="sidebar__section-title">Configuration</span>
+      <ul class="sidebar__nav">
+        <li><a href="setup.html"><span class="nav-icon">⚙️</span>Setup</a></li>
+        <li><a href="auth.html"><span class="nav-icon">🔐</span>Authentication</a></li>
+        <li><a href="permissions.html"><span class="nav-icon">🛡️</span>Permissions</a></li>
+      </ul>
+      <span class="sidebar__section-title">Core Data</span>
+      <ul class="sidebar__nav">
+        <li><a href="customer.html"><span class="nav-icon">🏢</span>Customers</a></li>
+        <li><a href="tenant.html"><span class="nav-icon">🌐</span>Tenants</a></li>
+        <li><a href="environment.html"><span class="nav-icon">🖥️</span>Environments</a></li>
+      </ul>
+      <span class="sidebar__section-title">Operations</span>
+      <ul class="sidebar__nav">
+        <li><a href="extension.html"><span class="nav-icon">🧩</span>Extensions</a></li>
+        <li><a href="backup.html"><span class="nav-icon">💾</span>Backup</a></li>
+        <li><a href="capacity.html"><span class="nav-icon">📊</span>Capacity</a></li>
+        <li><a href="features.html"><span class="nav-icon">🚦</span>Features</a></li>
+        <li><a href="session.html"><span class="nav-icon">👤</span>Sessions</a></li>
+        <li><a href="operation.html"><span class="nav-icon">⏳</span>Operations</a></li>
+      </ul>
+      <span class="sidebar__section-title">Advanced</span>
+      <ul class="sidebar__nav">
+        <li><a href="telemetry.html"><span class="nav-icon">📡</span>Telemetry</a></li>
+        <li><a href="general.html"><span class="nav-icon">🎛️</span>Role Center &amp; API</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="content">
+
+      <div class="page-header">
+        <div class="page-header__breadcrumb">
+          <a href="index.html">Home</a><span>›</span> Authentication
+        </div>
+        <h1>Authentication</h1>
+        <div class="page-header__meta">
+          <span class="badge badge--namespace">D4P.CCMS.Auth</span>
+          <span class="badge badge--module">Table 62008</span>
+        </div>
+      </div>
+
+      <p>
+        CCMS communicates with the BC Admin Center API and the Automation API using
+        <strong>OAuth 2.0 client credentials flow</strong>. The Auth module manages
+        the Microsoft Entra <em>App Registrations</em> (Client ID + secret) that CCMS
+        uses to obtain access tokens.
+      </p>
+
+      <h2 id="models">Authentication models</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Model</th><th>Description</th><th>When to use</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Shared</strong></td>
+              <td>One app registration used across multiple tenants.</td>
+              <td>Recommended when a single app has delegated access to all customer tenants (e.g. a CSP reseller relationship).</td>
+            </tr>
+            <tr>
+              <td><strong>Individual</strong></td>
+              <td>Each tenant has its own dedicated Client ID and secret.</td>
+              <td>Required when each customer tenant has a separate app registration or when customers manage their own Entra app.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="create-registration">Creating an App Registration in Azure</h2>
+      <ol class="step-list">
+        <li>
+          <div>
+            <strong>Go to Azure Portal → Azure Active Directory → App registrations</strong><br/>
+            Click <em>New registration</em>.
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Name the application</strong> (e.g. <em>CCMS Admin API</em>) and
+            choose <em>Accounts in this organizational directory only</em>.
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Note the Application (Client) ID</strong> — this is the GUID you will enter in CCMS.
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Create a client secret</strong>: go to <em>Certificates &amp; secrets → New client secret</em>.
+            Copy the <strong>Value</strong> immediately (shown only once).
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Add API permissions</strong>:
+            <em>API permissions → Add a permission → Dynamics 365 Business Central → Application permissions → API.ReadWrite.All</em>.
+            Then click <em>Grant admin consent</em>.
+          </div>
+        </li>
+      </ol>
+
+      <h2 id="ccms-record">Creating an App Registration record in CCMS</h2>
+      <ol class="step-list">
+        <li>
+          <div>
+            <strong>Open <em>App Registrations</em></strong> from the Role Center or BC search.
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Create a new record.</strong> Enter:
+            <ul>
+              <li><strong>Client ID</strong> – the Application (Client) ID GUID from the Azure Portal.</li>
+              <li><strong>Name</strong> – a descriptive label (e.g. the customer name or <em>Shared – All Tenants</em>).</li>
+              <li><strong>Secret Expiration Date</strong> – the expiry date of the client secret for monitoring.</li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Enter the Client Secret.</strong>
+            On the App Registration Card, type the secret value into the masked input field
+            and press <kbd>Tab</kbd>. The secret is immediately stored in
+            <strong>BC Isolated Storage</strong> — it is never saved in a plain-text table field.
+          </div>
+        </li>
+      </ol>
+
+      <div class="callout callout--success">
+        <div class="callout__title">Secret security</div>
+        Client secrets are stored using BC <strong>Isolated Storage</strong>, keyed by the Client ID.
+        They are encrypted at rest and cannot be read via standard AL table queries or SQL.
+        The only way to retrieve the value is through the <code>GetClientSecret()</code> method,
+        which is called exclusively by the API helper at token-acquisition time.
+      </div>
+
+      <h2 id="expiry">Secret expiry monitoring</h2>
+      <p>
+        The <em>Secret Expiration Date</em> field is styled with colour coding on list and card pages:
+      </p>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Style</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td><span class="status status--active">Favorable (green)</span></td><td>Secret is valid, expiry is &gt; 30 days away.</td></tr>
+            <tr><td><span class="status status--inactive">Attention (amber)</span></td><td>Secret expires within 30 days — plan renewal.</td></tr>
+            <tr><td><span class="status status--error">Unfavorable (red)</span></td><td>Secret has expired — API calls will fail until renewed.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="fields">App Registration card fields</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>Client ID</td><td>Guid</td><td>Primary key. Microsoft Entra Application (Client) ID.</td></tr>
+            <tr><td>Name</td><td>Text[100]</td><td>Descriptive name for this registration.</td></tr>
+            <tr><td>Secret Expiration Date</td><td>Date</td><td>When the current client secret expires. Used for colour-coded warnings.</td></tr>
+            <tr><td>Client Secret <em>(masked)</em></td><td>SecretText</td><td>Input-only field. Value is stored in Isolated Storage — never displayed after entry.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="related">Related modules</h2>
+      <ul>
+        <li><a href="tenant.html">Tenants</a> – each tenant references an app registration via the <em>Client ID</em> field when using the Shared model.</li>
+        <li><a href="general.html">Role Center &amp; API Helper</a> – the <code>D4P BC API Helper</code> codeunit calls the app registration to acquire OAuth tokens before each API request.</li>
+      </ul>
+
+    </div>
+  </main>
+</div>
+
+<footer class="footer">
+  &copy; Directions for Partners &bull; Cloud Customer Management Solution v0.0.2.0
+</footer>
+<script src="js/nav.js"></script>
+</body>
+</html>

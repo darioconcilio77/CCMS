@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customers – CCMS Help</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <button class="topbar__menu-btn" aria-label="Toggle menu">&#9776;</button>
+  <a href="index.html" class="topbar__logo">
+    <div class="topbar__logo-icon">D4P</div>
+    <div>
+      <div class="topbar__product">CCMS Help</div>
+      <div class="topbar__subtitle">Cloud Customer Management Solution</div>
+    </div>
+  </a>
+  <div class="topbar__spacer"></div>
+  <span class="topbar__version">v0.0.2.0 · BC 27.0+</span>
+</header>
+
+<div class="shell">
+  <nav class="sidebar" aria-label="Help navigation">
+    <div class="sidebar__inner">
+      <span class="sidebar__section-title">Documentation</span>
+      <ul class="sidebar__nav">
+        <li><a href="index.html"><span class="nav-icon">🏠</span>Home</a></li>
+        <li><a href="getting-started.html"><span class="nav-icon">🚀</span>Getting Started</a></li>
+      </ul>
+      <span class="sidebar__section-title">Configuration</span>
+      <ul class="sidebar__nav">
+        <li><a href="setup.html"><span class="nav-icon">⚙️</span>Setup</a></li>
+        <li><a href="auth.html"><span class="nav-icon">🔐</span>Authentication</a></li>
+        <li><a href="permissions.html"><span class="nav-icon">🛡️</span>Permissions</a></li>
+      </ul>
+      <span class="sidebar__section-title">Core Data</span>
+      <ul class="sidebar__nav">
+        <li><a href="customer.html"><span class="nav-icon">🏢</span>Customers</a></li>
+        <li><a href="tenant.html"><span class="nav-icon">🌐</span>Tenants</a></li>
+        <li><a href="environment.html"><span class="nav-icon">🖥️</span>Environments</a></li>
+      </ul>
+      <span class="sidebar__section-title">Operations</span>
+      <ul class="sidebar__nav">
+        <li><a href="extension.html"><span class="nav-icon">🧩</span>Extensions</a></li>
+        <li><a href="backup.html"><span class="nav-icon">💾</span>Backup</a></li>
+        <li><a href="capacity.html"><span class="nav-icon">📊</span>Capacity</a></li>
+        <li><a href="features.html"><span class="nav-icon">🚦</span>Features</a></li>
+        <li><a href="session.html"><span class="nav-icon">👤</span>Sessions</a></li>
+        <li><a href="operation.html"><span class="nav-icon">⏳</span>Operations</a></li>
+      </ul>
+      <span class="sidebar__section-title">Advanced</span>
+      <ul class="sidebar__nav">
+        <li><a href="telemetry.html"><span class="nav-icon">📡</span>Telemetry</a></li>
+        <li><a href="general.html"><span class="nav-icon">🎛️</span>Role Center &amp; API</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="content">
+
+      <div class="page-header">
+        <div class="page-header__breadcrumb">
+          <a href="index.html">Home</a><span>›</span> Customers
+        </div>
+        <h1>Customers</h1>
+        <div class="page-header__meta">
+          <span class="badge badge--namespace">D4P.CCMS.Customer</span>
+          <span class="badge badge--module">Table 62000</span>
+        </div>
+      </div>
+
+      <p>
+        The <strong>Customer</strong> is the <em>top-level entity</em> in the CCMS data hierarchy.
+        Every Entra tenant and every BC environment belongs to a customer. Creating a customer record
+        is the first data-entry step after completing the initial setup.
+      </p>
+
+      <h2 id="hierarchy">Data hierarchy</h2>
+      <div class="data-model">D4P BC Customer  (No. + Name)
+  └── D4P BC Tenant  →  D4P BC Environment  →  (all operational data)</div>
+
+      <h2 id="fields">Customer fields</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>No.</td>
+              <td>Code[20]</td>
+              <td>Primary key. Assigned automatically from the number series configured in Setup, or entered manually.</td>
+            </tr>
+            <tr>
+              <td>Name</td>
+              <td>Text[100]</td>
+              <td>Descriptive name of the customer / partner organisation.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout--info">
+        <div class="callout__title">Number series</div>
+        The <em>Customer Number Series</em> must be configured in <a href="setup.html">Setup</a>
+        before creating the first customer record, otherwise BC will prompt you to enter the number manually.
+      </div>
+
+      <h2 id="pages">Pages</h2>
+      <h3>Customers List (page 62003)</h3>
+      <p>
+        Entry point from the Role Center. Lists all customers with their name.
+        Available actions:
+      </p>
+      <ul>
+        <li><strong>Tenants</strong> – opens the Tenant List filtered to this customer.</li>
+        <li><strong>Environments</strong> – opens the Environment List filtered to this customer.</li>
+      </ul>
+
+      <h3>Customer Card (page 62004)</h3>
+      <p>
+        Full card for a single customer. Includes the <strong>Customer FactBox</strong>
+        on the right side, showing a count of associated tenants and environments at a glance.
+      </p>
+
+      <h2 id="howto">How to create a customer</h2>
+      <ol class="step-list">
+        <li><div><strong>Open Customers List</strong> from the Role Center or BC search.</div></li>
+        <li><div><strong>Click New</strong> to open a blank Customer Card.</div></li>
+        <li><div><strong>Enter the Name</strong>. The <em>No.</em> is auto-filled from the number series.</div></li>
+        <li><div><strong>Save</strong> (press Esc or navigate away). The record is created.</div></li>
+        <li><div><strong>Click Tenants</strong> to add the first Entra tenant for this customer.</div></li>
+      </ol>
+
+      <h2 id="related">Related modules</h2>
+      <ul>
+        <li><a href="tenant.html">Tenants</a> – each tenant has <code>Customer No.</code> as part of its primary key.</li>
+        <li><a href="setup.html">Setup</a> – the <em>Customer Nos.</em> field controls number assignment.</li>
+      </ul>
+
+    </div>
+  </main>
+</div>
+
+<footer class="footer">
+  &copy; Directions for Partners &bull; Cloud Customer Management Solution v0.0.2.0
+</footer>
+<script src="js/nav.js"></script>
+</body>
+</html>

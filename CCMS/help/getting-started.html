@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Getting Started – CCMS Help</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <button class="topbar__menu-btn" aria-label="Toggle menu">&#9776;</button>
+  <a href="index.html" class="topbar__logo">
+    <div class="topbar__logo-icon">D4P</div>
+    <div>
+      <div class="topbar__product">CCMS Help</div>
+      <div class="topbar__subtitle">Cloud Customer Management Solution</div>
+    </div>
+  </a>
+  <div class="topbar__spacer"></div>
+  <span class="topbar__version">v0.0.2.0 · BC 27.0+</span>
+</header>
+
+<div class="shell">
+  <nav class="sidebar" aria-label="Help navigation">
+    <div class="sidebar__inner">
+      <span class="sidebar__section-title">Documentation</span>
+      <ul class="sidebar__nav">
+        <li><a href="index.html"><span class="nav-icon">🏠</span>Home</a></li>
+        <li><a href="getting-started.html"><span class="nav-icon">🚀</span>Getting Started</a></li>
+      </ul>
+      <span class="sidebar__section-title">Configuration</span>
+      <ul class="sidebar__nav">
+        <li><a href="setup.html"><span class="nav-icon">⚙️</span>Setup</a></li>
+        <li><a href="auth.html"><span class="nav-icon">🔐</span>Authentication</a></li>
+        <li><a href="permissions.html"><span class="nav-icon">🛡️</span>Permissions</a></li>
+      </ul>
+      <span class="sidebar__section-title">Core Data</span>
+      <ul class="sidebar__nav">
+        <li><a href="customer.html"><span class="nav-icon">🏢</span>Customers</a></li>
+        <li><a href="tenant.html"><span class="nav-icon">🌐</span>Tenants</a></li>
+        <li><a href="environment.html"><span class="nav-icon">🖥️</span>Environments</a></li>
+      </ul>
+      <span class="sidebar__section-title">Operations</span>
+      <ul class="sidebar__nav">
+        <li><a href="extension.html"><span class="nav-icon">🧩</span>Extensions</a></li>
+        <li><a href="backup.html"><span class="nav-icon">💾</span>Backup</a></li>
+        <li><a href="capacity.html"><span class="nav-icon">📊</span>Capacity</a></li>
+        <li><a href="features.html"><span class="nav-icon">🚦</span>Features</a></li>
+        <li><a href="session.html"><span class="nav-icon">👤</span>Sessions</a></li>
+        <li><a href="operation.html"><span class="nav-icon">⏳</span>Operations</a></li>
+      </ul>
+      <span class="sidebar__section-title">Advanced</span>
+      <ul class="sidebar__nav">
+        <li><a href="telemetry.html"><span class="nav-icon">📡</span>Telemetry</a></li>
+        <li><a href="general.html"><span class="nav-icon">🎛️</span>Role Center &amp; API</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="content">
+
+      <div class="page-header">
+        <div class="page-header__breadcrumb">
+          <a href="index.html">Home</a><span>›</span> Getting Started
+        </div>
+        <h1>Getting Started</h1>
+        <div class="page-header__meta">
+          <span class="badge badge--module">First-time setup</span>
+        </div>
+      </div>
+
+      <p>
+        This guide walks you through the complete first-time installation and configuration
+        of the Cloud Customer Management Solution (CCMS). Follow the steps in order to
+        get from a fresh installation to a fully operational admin centre.
+      </p>
+
+      <div class="callout callout--info">
+        <div class="callout__title">Prerequisite</div>
+        CCMS requires <strong>Microsoft Dynamics 365 Business Central</strong> runtime 16.0
+        (application version 27.0.0.0 or later). The extension must be deployed as a
+        Per-Tenant Extension (PTE) by a partner with access to the BC Admin Center.
+      </div>
+
+      <h2 id="step1">Step 1 – Assign permissions</h2>
+      <p>
+        Before any user can open a CCMS page, the correct permission set must be assigned.
+        For the initial administrator who will complete all configuration steps, assign
+        <strong>D4P BC ADMIN</strong> (Full Access).
+      </p>
+      <ol class="step-list">
+        <li>
+          <div>
+            <strong>Open User Management</strong>
+            In Business Central search for <em>Users</em> and open the card for the administrator account.
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Add permission set</strong>
+            On the <em>User Permission Sets</em> FastTab, add <code>D4P BC ADMIN</code>.
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Sign out and back in</strong>
+            The new permissions take effect after re-authenticating.
+          </div>
+        </li>
+      </ol>
+      <p>See <a href="permissions.html">Permissions</a> for the full list of available permission sets.</p>
+
+      <h2 id="step2">Step 2 – Configure global settings</h2>
+      <p>
+        Open the <strong>CCMS Setup</strong> page (search for <em>D4P BC Setup</em> or use the
+        <em>Setup</em> action on the Tenant List). Configure the following fields:
+      </p>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Field</th><th>Default value</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Admin API Base URL</td>
+              <td><code>https://api.businesscentral.dynamics.com/admin/v2.28</code></td>
+              <td>Base URL for all BC Admin Center API calls. Keep the default unless Microsoft changes it.</td>
+            </tr>
+            <tr>
+              <td>Automation API Base URL</td>
+              <td><code>https://api.businesscentral.dynamics.com/v2.0</code></td>
+              <td>Base URL for BC Automation API calls (installed apps).</td>
+            </tr>
+            <tr>
+              <td>Customer Number Series</td>
+              <td><em>(blank)</em></td>
+              <td>Select or create a number series for auto-assigning customer numbers.</td>
+            </tr>
+            <tr>
+              <td>Debug Mode</td>
+              <td>Off</td>
+              <td>Enable only during troubleshooting — shows raw API payloads in pop-ups.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>See <a href="setup.html">Setup</a> for full details.</p>
+
+      <h2 id="step3">Step 3 – Create an App Registration</h2>
+      <p>
+        CCMS authenticates against the BC Admin Center API using
+        <strong>OAuth 2.0 client credentials</strong>. You need at least one Microsoft Entra
+        App Registration with API permissions to the BC Admin API.
+      </p>
+      <ol class="step-list">
+        <li>
+          <div>
+            <strong>Register an app in the Azure portal</strong>
+            Go to <em>Azure Active Directory → App registrations → New registration</em>.
+            Note the <strong>Application (Client) ID</strong>.
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Create a client secret</strong>
+            Under <em>Certificates &amp; secrets</em>, add a new secret. Copy the value immediately —
+            it is only shown once.
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Grant API permissions</strong>
+            Add the permission <code>API.ReadWrite.All</code> for
+            <em>Dynamics 365 Business Central</em> and grant admin consent.
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Add the registration in CCMS</strong>
+            Open <em>App Registrations</em> from the Role Center. Create a new record with
+            the Client ID and paste the secret into the masked field.
+          </div>
+        </li>
+      </ol>
+      <p>See <a href="auth.html">Authentication</a> for detailed field descriptions.</p>
+
+      <h2 id="step4">Step 4 – Create your first Customer</h2>
+      <p>
+        Customers are the top-level entities in CCMS. Each customer groups one or more Entra
+        tenants and their BC environments.
+      </p>
+      <ol class="step-list">
+        <li>
+          <div>
+            <strong>Open Customers List</strong>
+            From the Role Center, click the <em>Customers</em> cue or navigate via the action menu.
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Create a new Customer record</strong>
+            Enter the customer name. The number is auto-assigned from the number series configured in Setup.
+          </div>
+        </li>
+      </ol>
+      <p>See <a href="customer.html">Customers</a> for more information.</p>
+
+      <h2 id="step5">Step 5 – Add a Tenant</h2>
+      <p>
+        A <em>Tenant</em> record links a Customer to a specific Microsoft Entra Tenant ID and
+        holds the authentication/backup configuration.
+      </p>
+      <ol class="step-list">
+        <li>
+          <div>
+            <strong>Open the Customer Card</strong> and click <em>Tenants</em>, or open the
+            Tenant List directly from the Role Center.
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Create a Tenant record.</strong>
+            Enter the <strong>Tenant ID</strong> (the Entra Directory/Tenant GUID) and a descriptive name.
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Configure authentication.</strong>
+            Choose <em>Shared</em> (references the App Registration created in Step 3) or
+            <em>Individual</em> (a dedicated Client ID and secret for this tenant).
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Optionally configure Backup storage</strong> — enter the Azure Blob SAS URI,
+            container name, and token expiration date.
+          </div>
+        </li>
+      </ol>
+      <p>See <a href="tenant.html">Tenants</a> for full field reference.</p>
+
+      <h2 id="step6">Step 6 – Refresh Environments</h2>
+      <p>
+        Once a Tenant is configured with valid authentication, you can pull the full list of
+        BC environments from the Admin Center API.
+      </p>
+      <ol class="step-list">
+        <li>
+          <div>
+            <strong>Open the Tenant Card.</strong>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Click <em>Refresh Environments</em></strong> in the action bar.
+            CCMS calls the Admin API and upserts all environments for this tenant.
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Open the Environment List</strong> to view the imported environments
+            with their type, state, country code, and version.
+          </div>
+        </li>
+      </ol>
+      <p>See <a href="environment.html">Environments</a> for available lifecycle actions.</p>
+
+      <h2 id="next">What to do next</h2>
+      <div class="card-grid">
+        <a class="card" href="environment.html">
+          <div class="card__icon">🖥️</div>
+          <div class="card__title">Manage Environments</div>
+          <div class="card__desc">Create, copy, rename, delete, and schedule updates.</div>
+        </a>
+        <a class="card" href="extension.html">
+          <div class="card__icon">🧩</div>
+          <div class="card__title">Manage Extensions</div>
+          <div class="card__desc">Inspect installed apps and trigger updates.</div>
+        </a>
+        <a class="card" href="backup.html">
+          <div class="card__icon">💾</div>
+          <div class="card__title">Back up Environments</div>
+          <div class="card__desc">Export environments to Azure Blob Storage.</div>
+        </a>
+        <a class="card" href="telemetry.html">
+          <div class="card__icon">📡</div>
+          <div class="card__title">Telemetry &amp; KQL</div>
+          <div class="card__desc">Query Application Insights data from within BC.</div>
+        </a>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<footer class="footer">
+  &copy; Directions for Partners &bull; Cloud Customer Management Solution v0.0.2.0
+</footer>
+<script src="js/nav.js"></script>
+</body>
+</html>

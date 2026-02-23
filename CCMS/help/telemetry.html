@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Telemetry – CCMS Help</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <button class="topbar__menu-btn" aria-label="Toggle menu">&#9776;</button>
+  <a href="index.html" class="topbar__logo">
+    <div class="topbar__logo-icon">D4P</div>
+    <div>
+      <div class="topbar__product">CCMS Help</div>
+      <div class="topbar__subtitle">Cloud Customer Management Solution</div>
+    </div>
+  </a>
+  <div class="topbar__spacer"></div>
+  <span class="topbar__version">v0.0.2.0 · BC 27.0+</span>
+</header>
+
+<div class="shell">
+  <nav class="sidebar" aria-label="Help navigation">
+    <div class="sidebar__inner">
+      <span class="sidebar__section-title">Documentation</span>
+      <ul class="sidebar__nav">
+        <li><a href="index.html"><span class="nav-icon">🏠</span>Home</a></li>
+        <li><a href="getting-started.html"><span class="nav-icon">🚀</span>Getting Started</a></li>
+      </ul>
+      <span class="sidebar__section-title">Configuration</span>
+      <ul class="sidebar__nav">
+        <li><a href="setup.html"><span class="nav-icon">⚙️</span>Setup</a></li>
+        <li><a href="auth.html"><span class="nav-icon">🔐</span>Authentication</a></li>
+        <li><a href="permissions.html"><span class="nav-icon">🛡️</span>Permissions</a></li>
+      </ul>
+      <span class="sidebar__section-title">Core Data</span>
+      <ul class="sidebar__nav">
+        <li><a href="customer.html"><span class="nav-icon">🏢</span>Customers</a></li>
+        <li><a href="tenant.html"><span class="nav-icon">🌐</span>Tenants</a></li>
+        <li><a href="environment.html"><span class="nav-icon">🖥️</span>Environments</a></li>
+      </ul>
+      <span class="sidebar__section-title">Operations</span>
+      <ul class="sidebar__nav">
+        <li><a href="extension.html"><span class="nav-icon">🧩</span>Extensions</a></li>
+        <li><a href="backup.html"><span class="nav-icon">💾</span>Backup</a></li>
+        <li><a href="capacity.html"><span class="nav-icon">📊</span>Capacity</a></li>
+        <li><a href="features.html"><span class="nav-icon">🚦</span>Features</a></li>
+        <li><a href="session.html"><span class="nav-icon">👤</span>Sessions</a></li>
+        <li><a href="operation.html"><span class="nav-icon">⏳</span>Operations</a></li>
+      </ul>
+      <span class="sidebar__section-title">Advanced</span>
+      <ul class="sidebar__nav">
+        <li><a href="telemetry.html"><span class="nav-icon">📡</span>Telemetry</a></li>
+        <li><a href="general.html"><span class="nav-icon">🎛️</span>Role Center &amp; API</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="content">
+
+      <div class="page-header">
+        <div class="page-header__breadcrumb">
+          <a href="index.html">Home</a><span>›</span> Telemetry
+        </div>
+        <h1>Telemetry</h1>
+        <div class="page-header__meta">
+          <span class="badge badge--namespace">D4P.CCMS.Telemetry</span>
+          <span class="badge badge--module">Advanced</span>
+        </div>
+      </div>
+
+      <p>
+        The Telemetry module provides an interface to query <strong>Azure Application Insights</strong>
+        telemetry data associated with BC environments directly from within Business Central.
+        Administrators can run pre-defined or custom <strong>KQL (Kusto Query Language)</strong>
+        queries; results are stored locally in BC for browsing and analysis.
+      </p>
+
+      <div class="callout callout--info">
+        <div class="callout__title">Prerequisite</div>
+        Each environment must have an <strong>Application Insights connection string</strong> set
+        (see <a href="environment.html">Environments</a> → <em>Application Insights String</em> field).
+        Environments without a connection string cannot be queried.
+      </div>
+
+      <h2 id="architecture">Architecture</h2>
+      <div class="data-model">D4P AppInsights Connection     (connection strings registry)
+        │
+        ▼
+D4P AppInsights Client         (REST API client, executes KQL)
+        │
+        ▼
+D4P KQL Query Store            (library of saved queries)
+        │
+        ▼
+D4P Load Data  (report)
+        │
+        ├──► D4P KQL Page Execution
+        ├──► D4P KQL Report Execution
+        ├──► D4P KQL Slow AL Method
+        └──► D4P KQL Extension Lifecycle</div>
+
+      <h2 id="connections">Application Insights Connections</h2>
+      <p>
+        The <strong>D4P AppInsights Connection</strong> table is an optional registry of named
+        connection strings that can be reused across environments (as an alternative to storing
+        the connection string directly on each environment record).
+      </p>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Field</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>Code</td><td>Unique identifier for the connection (e.g. <code>PROD-TENANT1</code>).</td></tr>
+            <tr><td>Name</td><td>Descriptive display name.</td></tr>
+            <tr><td>Connection String</td><td>Full Azure Application Insights connection string (InstrumentationKey or connection string format).</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="kql-store">KQL Query Store</h2>
+      <p>
+        The <strong>KQL Query Store</strong> is a library of saved KQL queries. Each query can
+        be executed on demand against an environment's Application Insights resource.
+      </p>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Field</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>Code</td><td>Unique query identifier.</td></tr>
+            <tr><td>Name</td><td>Display name (e.g. <em>Slow AL Methods – Last 24h</em>).</td></tr>
+            <tr><td>Description</td><td>What the query analyses.</td></tr>
+            <tr><td>Query</td><td>Full KQL query text (stored as BLOB). Supports dynamic token substitution.</td></tr>
+            <tr><td>Result Table ID</td><td>BC Table ID where results will be stored (<code>0</code> = no persistent storage).</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="tokens">KQL token substitution</h2>
+      <p>
+        Query texts can include placeholder tokens that CCMS replaces before execution:
+      </p>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Token</th><th>Replaced with</th></tr></thead>
+          <tbody>
+            <tr><td><code>{{FROM}}</code></td><td>Start date/time of the query window.</td></tr>
+            <tr><td><code>{{TO}}</code></td><td>End date/time of the query window.</td></tr>
+            <tr><td><code>{{DATEFILTER}}</code></td><td>Pre-formatted KQL date range filter expression.</td></tr>
+            <tr><td><code>{{TIMESTAMP_COMPRESSION}}</code></td><td><code>bin(timestamp, &lt;interval&gt;)</code> or plain <code>timestamp</code>.</td></tr>
+            <tr><td><code>{{AADTENANTID}}</code></td><td>Entra Tenant ID (lowercase, without curly braces).</td></tr>
+            <tr><td><code>{{ENVIRONMENTTYPE}}</code></td><td>Environment type string.</td></tr>
+            <tr><td><code>{{ENVIRONMENTNAME}}</code></td><td>Environment name.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="built-in-queries">Built-in query types</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Result table</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>D4P KQL Page Execution</td><td>Page open/close telemetry — performance of BC pages used by the customer.</td></tr>
+            <tr><td>D4P KQL Report Execution</td><td>Report run duration and recurrence statistics.</td></tr>
+            <tr><td>D4P KQL Slow AL Method</td><td>AL method calls exceeding a time threshold — highlights performance bottlenecks.</td></tr>
+            <tr><td>D4P KQL Extension Lifecycle</td><td>Extension install/uninstall/upgrade events logged to Application Insights.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="howto">How to run a KQL query</h2>
+      <ol class="step-list">
+        <li><div><strong>Ensure the environment has an Application Insights connection string.</strong> Set it on the <a href="environment.html">Environment Card</a> and push it via <em>Set Application Insights Key</em>.</div></li>
+        <li><div><strong>Open the KQL Query Store</strong> (search for <em>D4P KQL Query Store</em>).</div></li>
+        <li><div><strong>Select a query</strong> from the list or create a new one.</div></li>
+        <li><div><strong>Run <em>D4P Load Data report</em></strong> for the desired environment and date range. CCMS replaces tokens, calls the Application Insights REST API, and stores results.</div></li>
+        <li><div><strong>Open the result page</strong> (e.g. <em>D4P KQL Slow AL Method</em>) to browse the returned data.</div></li>
+      </ol>
+
+      <div class="callout callout--info">
+        <div class="callout__title">Debug mode tip</div>
+        Enable <a href="setup.html">Debug Mode</a> in Setup to see the full KQL text (after token
+        replacement) in a pop-up before it is sent to Application Insights. Useful for developing
+        and validating custom queries.
+      </div>
+
+      <h2 id="permissions">Required permissions</h2>
+      <p>
+        Users who only need to run and review telemetry can be assigned the
+        <code>D4P BC TELEMETRY</code> permission set without granting access to other
+        administrative operations. See <a href="permissions.html">Permissions</a>.
+      </p>
+
+    </div>
+  </main>
+</div>
+
+<footer class="footer">
+  &copy; Directions for Partners &bull; Cloud Customer Management Solution v0.0.2.0
+</footer>
+<script src="js/nav.js"></script>
+</body>
+</html>

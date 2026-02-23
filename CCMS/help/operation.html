@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Operations – CCMS Help</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <button class="topbar__menu-btn" aria-label="Toggle menu">&#9776;</button>
+  <a href="index.html" class="topbar__logo">
+    <div class="topbar__logo-icon">D4P</div>
+    <div>
+      <div class="topbar__product">CCMS Help</div>
+      <div class="topbar__subtitle">Cloud Customer Management Solution</div>
+    </div>
+  </a>
+  <div class="topbar__spacer"></div>
+  <span class="topbar__version">v0.0.2.0 · BC 27.0+</span>
+</header>
+
+<div class="shell">
+  <nav class="sidebar" aria-label="Help navigation">
+    <div class="sidebar__inner">
+      <span class="sidebar__section-title">Documentation</span>
+      <ul class="sidebar__nav">
+        <li><a href="index.html"><span class="nav-icon">🏠</span>Home</a></li>
+        <li><a href="getting-started.html"><span class="nav-icon">🚀</span>Getting Started</a></li>
+      </ul>
+      <span class="sidebar__section-title">Configuration</span>
+      <ul class="sidebar__nav">
+        <li><a href="setup.html"><span class="nav-icon">⚙️</span>Setup</a></li>
+        <li><a href="auth.html"><span class="nav-icon">🔐</span>Authentication</a></li>
+        <li><a href="permissions.html"><span class="nav-icon">🛡️</span>Permissions</a></li>
+      </ul>
+      <span class="sidebar__section-title">Core Data</span>
+      <ul class="sidebar__nav">
+        <li><a href="customer.html"><span class="nav-icon">🏢</span>Customers</a></li>
+        <li><a href="tenant.html"><span class="nav-icon">🌐</span>Tenants</a></li>
+        <li><a href="environment.html"><span class="nav-icon">🖥️</span>Environments</a></li>
+      </ul>
+      <span class="sidebar__section-title">Operations</span>
+      <ul class="sidebar__nav">
+        <li><a href="extension.html"><span class="nav-icon">🧩</span>Extensions</a></li>
+        <li><a href="backup.html"><span class="nav-icon">💾</span>Backup</a></li>
+        <li><a href="capacity.html"><span class="nav-icon">📊</span>Capacity</a></li>
+        <li><a href="features.html"><span class="nav-icon">🚦</span>Features</a></li>
+        <li><a href="session.html"><span class="nav-icon">👤</span>Sessions</a></li>
+        <li><a href="operation.html"><span class="nav-icon">⏳</span>Operations</a></li>
+      </ul>
+      <span class="sidebar__section-title">Advanced</span>
+      <ul class="sidebar__nav">
+        <li><a href="telemetry.html"><span class="nav-icon">📡</span>Telemetry</a></li>
+        <li><a href="general.html"><span class="nav-icon">🎛️</span>Role Center &amp; API</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="content">
+
+      <div class="page-header">
+        <div class="page-header__breadcrumb">
+          <a href="index.html">Home</a><span>›</span> Operations
+        </div>
+        <h1>Operations</h1>
+        <div class="page-header__meta">
+          <span class="badge badge--namespace">D4P.CCMS.Operations</span>
+        </div>
+      </div>
+
+      <p>
+        The Operation module tracks <strong>long-running asynchronous jobs</strong> submitted
+        to the BC Admin Center API — such as environment creation, copy, deletion, and updates.
+        When these jobs are submitted, the Admin API returns an operation ID that CCMS stores
+        and monitors until the job completes.
+      </p>
+
+      <h2 id="lifecycle">Operation lifecycle</h2>
+      <div class="data-model">Scheduled  →  Running  →  Succeeded
+                          ↘  Failed
+                          ↘  Canceled</div>
+      <p>Failed operations include an <strong>Error Message</strong> from the API response to help diagnose the issue.</p>
+
+      <h2 id="fields">Operation fields</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Field</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>Operation ID</td><td>GUID returned by the Admin API for the async job.</td></tr>
+            <tr><td>Operation Type</td><td>Type of operation: <em>EnvironmentCreate</em>, <em>EnvironmentCopy</em>, <em>EnvironmentDelete</em>, <em>EnvironmentUpdate</em>, etc.</td></tr>
+            <tr><td>Status</td><td>Current status: <em>Scheduled</em>, <em>Running</em>, <em>Succeeded</em>, <em>Failed</em>, or <em>Canceled</em>.</td></tr>
+            <tr><td>Created At</td><td>DateTime when the operation was created by the Admin API.</td></tr>
+            <tr><td>Last Modified At</td><td>DateTime when the status was last updated.</td></tr>
+            <tr><td>Error Message</td><td>Error details if <em>Status = Failed</em>.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="actions">Actions</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Action</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Refresh</td>
+              <td>Re-polls the Admin API (<code>GET .../environments/{name}/operations</code>) to update the status of all listed operations for this environment.</td>
+            </tr>
+            <tr>
+              <td>Refresh Selected</td>
+              <td>Updates only the selected operation's status via <code>GET .../operations/{operationId}</code>. More efficient when you only need to check one specific job.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="status-guide">Status reference</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Status</th><th>Meaning</th><th>Action required</th></tr></thead>
+          <tbody>
+            <tr><td><span class="status status--pending">Scheduled</span></td><td>Job queued – not yet picked up by the Admin API worker.</td><td>Wait and refresh.</td></tr>
+            <tr><td><span class="status status--inactive">Running</span></td><td>Job is actively processing.</td><td>Wait and refresh.</td></tr>
+            <tr><td><span class="status status--active">Succeeded</span></td><td>Job completed successfully.</td><td>None – operation is finished.</td></tr>
+            <tr><td><span class="status status--error">Failed</span></td><td>Job encountered an error. See <em>Error Message</em>.</td><td>Review the error, resolve the underlying issue, and retry the action.</td></tr>
+            <tr><td><span class="status status--inactive">Canceled</span></td><td>Job was cancelled (e.g. by Microsoft due to infrastructure constraints).</td><td>Retry the operation.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="howto">How to monitor a long-running operation</h2>
+      <ol class="step-list">
+        <li><div><strong>Trigger the operation</strong> (e.g. create or copy an environment from the Environment Card).</div></li>
+        <li><div><strong>Open the Environment Card</strong> and navigate to <em>Operations</em>.</div></li>
+        <li><div><strong>Click Refresh Selected</strong> on the new operation row to poll its current status.</div></li>
+        <li><div>Repeat periodically until the status changes to <span class="status status--active">Succeeded</span> or <span class="status status--error">Failed</span>.</div></li>
+        <li><div>If <em>Failed</em>, read the <em>Error Message</em> field for details, address the issue, and retry.</div></li>
+      </ol>
+
+    </div>
+  </main>
+</div>
+
+<footer class="footer">
+  &copy; Directions for Partners &bull; Cloud Customer Management Solution v0.0.2.0
+</footer>
+<script src="js/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Features – CCMS Help</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <button class="topbar__menu-btn" aria-label="Toggle menu">&#9776;</button>
+  <a href="index.html" class="topbar__logo">
+    <div class="topbar__logo-icon">D4P</div>
+    <div>
+      <div class="topbar__product">CCMS Help</div>
+      <div class="topbar__subtitle">Cloud Customer Management Solution</div>
+    </div>
+  </a>
+  <div class="topbar__spacer"></div>
+  <span class="topbar__version">v0.0.2.0 · BC 27.0+</span>
+</header>
+
+<div class="shell">
+  <nav class="sidebar" aria-label="Help navigation">
+    <div class="sidebar__inner">
+      <span class="sidebar__section-title">Documentation</span>
+      <ul class="sidebar__nav">
+        <li><a href="index.html"><span class="nav-icon">🏠</span>Home</a></li>
+        <li><a href="getting-started.html"><span class="nav-icon">🚀</span>Getting Started</a></li>
+      </ul>
+      <span class="sidebar__section-title">Configuration</span>
+      <ul class="sidebar__nav">
+        <li><a href="setup.html"><span class="nav-icon">⚙️</span>Setup</a></li>
+        <li><a href="auth.html"><span class="nav-icon">🔐</span>Authentication</a></li>
+        <li><a href="permissions.html"><span class="nav-icon">🛡️</span>Permissions</a></li>
+      </ul>
+      <span class="sidebar__section-title">Core Data</span>
+      <ul class="sidebar__nav">
+        <li><a href="customer.html"><span class="nav-icon">🏢</span>Customers</a></li>
+        <li><a href="tenant.html"><span class="nav-icon">🌐</span>Tenants</a></li>
+        <li><a href="environment.html"><span class="nav-icon">🖥️</span>Environments</a></li>
+      </ul>
+      <span class="sidebar__section-title">Operations</span>
+      <ul class="sidebar__nav">
+        <li><a href="extension.html"><span class="nav-icon">🧩</span>Extensions</a></li>
+        <li><a href="backup.html"><span class="nav-icon">💾</span>Backup</a></li>
+        <li><a href="capacity.html"><span class="nav-icon">📊</span>Capacity</a></li>
+        <li><a href="features.html"><span class="nav-icon">🚦</span>Features</a></li>
+        <li><a href="session.html"><span class="nav-icon">👤</span>Sessions</a></li>
+        <li><a href="operation.html"><span class="nav-icon">⏳</span>Operations</a></li>
+      </ul>
+      <span class="sidebar__section-title">Advanced</span>
+      <ul class="sidebar__nav">
+        <li><a href="telemetry.html"><span class="nav-icon">📡</span>Telemetry</a></li>
+        <li><a href="general.html"><span class="nav-icon">🎛️</span>Role Center &amp; API</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="content">
+
+      <div class="page-header">
+        <div class="page-header__breadcrumb">
+          <a href="index.html">Home</a><span>›</span> Features
+        </div>
+        <h1>Features</h1>
+        <div class="page-header__meta">
+          <span class="badge badge--namespace">D4P.CCMS.Features</span>
+        </div>
+      </div>
+
+      <p>
+        The Features module provides a UI to view and toggle <strong>BC feature flags</strong>
+        for individual environments. BC environments expose optional and preview features
+        that can be enabled or disabled via the Admin Center API.
+      </p>
+
+      <h2 id="fields">Feature fields</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Field</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>Feature ID</td><td>Unique identifier of the feature from the Admin API (e.g. <code>NewExperienceForFinancialReporting</code>).</td></tr>
+            <tr><td>Feature Name</td><td>Human-readable display name of the feature.</td></tr>
+            <tr><td>State</td><td><em>Enabled</em>, <em>Disabled</em>, or <em>System</em> (always on, cannot be toggled).</td></tr>
+            <tr><td>Data Update Required</td><td>When <code>true</code>, enabling this feature may trigger a data upgrade, which can take additional time.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="states">Feature states</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>State</th><th>Meaning</th><th>Toggleable?</th></tr></thead>
+          <tbody>
+            <tr><td><span class="status status--active">Enabled</span></td><td>Feature is currently active in this environment.</td><td>Yes – can be disabled.</td></tr>
+            <tr><td><span class="status status--inactive">Disabled</span></td><td>Feature is available but not yet active.</td><td>Yes – can be enabled.</td></tr>
+            <tr><td><span class="status status--pending">System</span></td><td>Feature is always enabled by Microsoft; not configurable.</td><td>No.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="actions">Actions</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Action</th><th>API call</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>Refresh</td><td>GET .../environments/{name}/features</td><td>Fetches the current feature list and states from the Admin API.</td></tr>
+            <tr><td>Enable</td><td>PUT .../environments/{name}/features/{featureId}</td><td>Enables the selected feature. A confirmation is shown if a data update is required.</td></tr>
+            <tr><td>Disable</td><td>PUT .../environments/{name}/features/{featureId}</td><td>Disables the selected feature.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="howto">How to enable or disable a feature</h2>
+      <ol class="step-list">
+        <li><div><strong>Open the Environment Card</strong> for the target environment.</div></li>
+        <li><div><strong>Navigate to Features</strong> via the environment actions.</div></li>
+        <li><div><strong>Click Refresh</strong> to load the current feature states from the API.</div></li>
+        <li><div><strong>Select the feature</strong> you want to toggle.</div></li>
+        <li><div><strong>Click Enable or Disable</strong>. If the feature requires a data update, CCMS will warn you before proceeding.</div></li>
+      </ol>
+
+      <div class="callout callout--warn">
+        <div class="callout__title">Data updates</div>
+        Features with <em>Data Update Required = true</em> may take longer to enable.
+        During a data update, the environment may be temporarily unavailable to users.
+        Schedule this action during a planned maintenance window.
+      </div>
+
+      <div class="callout callout--info">
+        <div class="callout__title">System features</div>
+        Features with <em>State = System</em> are enforced by Microsoft and cannot be toggled.
+        The Enable and Disable actions are disabled for these features.
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<footer class="footer">
+  &copy; Directions for Partners &bull; Cloud Customer Management Solution v0.0.2.0
+</footer>
+<script src="js/nav.js"></script>
+</body>
+</html>

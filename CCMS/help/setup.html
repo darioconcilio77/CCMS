@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Setup – CCMS Help</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <button class="topbar__menu-btn" aria-label="Toggle menu">&#9776;</button>
+  <a href="index.html" class="topbar__logo">
+    <div class="topbar__logo-icon">D4P</div>
+    <div>
+      <div class="topbar__product">CCMS Help</div>
+      <div class="topbar__subtitle">Cloud Customer Management Solution</div>
+    </div>
+  </a>
+  <div class="topbar__spacer"></div>
+  <span class="topbar__version">v0.0.2.0 · BC 27.0+</span>
+</header>
+
+<div class="shell">
+  <nav class="sidebar" aria-label="Help navigation">
+    <div class="sidebar__inner">
+      <span class="sidebar__section-title">Documentation</span>
+      <ul class="sidebar__nav">
+        <li><a href="index.html"><span class="nav-icon">🏠</span>Home</a></li>
+        <li><a href="getting-started.html"><span class="nav-icon">🚀</span>Getting Started</a></li>
+      </ul>
+      <span class="sidebar__section-title">Configuration</span>
+      <ul class="sidebar__nav">
+        <li><a href="setup.html"><span class="nav-icon">⚙️</span>Setup</a></li>
+        <li><a href="auth.html"><span class="nav-icon">🔐</span>Authentication</a></li>
+        <li><a href="permissions.html"><span class="nav-icon">🛡️</span>Permissions</a></li>
+      </ul>
+      <span class="sidebar__section-title">Core Data</span>
+      <ul class="sidebar__nav">
+        <li><a href="customer.html"><span class="nav-icon">🏢</span>Customers</a></li>
+        <li><a href="tenant.html"><span class="nav-icon">🌐</span>Tenants</a></li>
+        <li><a href="environment.html"><span class="nav-icon">🖥️</span>Environments</a></li>
+      </ul>
+      <span class="sidebar__section-title">Operations</span>
+      <ul class="sidebar__nav">
+        <li><a href="extension.html"><span class="nav-icon">🧩</span>Extensions</a></li>
+        <li><a href="backup.html"><span class="nav-icon">💾</span>Backup</a></li>
+        <li><a href="capacity.html"><span class="nav-icon">📊</span>Capacity</a></li>
+        <li><a href="features.html"><span class="nav-icon">🚦</span>Features</a></li>
+        <li><a href="session.html"><span class="nav-icon">👤</span>Sessions</a></li>
+        <li><a href="operation.html"><span class="nav-icon">⏳</span>Operations</a></li>
+      </ul>
+      <span class="sidebar__section-title">Advanced</span>
+      <ul class="sidebar__nav">
+        <li><a href="telemetry.html"><span class="nav-icon">📡</span>Telemetry</a></li>
+        <li><a href="general.html"><span class="nav-icon">🎛️</span>Role Center &amp; API</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="content">
+
+      <div class="page-header">
+        <div class="page-header__breadcrumb">
+          <a href="index.html">Home</a><span>›</span> Setup
+        </div>
+        <h1>Setup</h1>
+        <div class="page-header__meta">
+          <span class="badge badge--namespace">D4P.CCMS.Setup</span>
+          <span class="badge badge--module">Table 62009</span>
+        </div>
+      </div>
+
+      <p>
+        The Setup module stores the <strong>global configuration</strong> for CCMS.
+        It uses a singleton pattern: exactly one record always exists (primary key is always blank),
+        and it is auto-created with sensible defaults the first time it is accessed.
+      </p>
+
+      <h2 id="opening">Opening Setup</h2>
+      <p>Setup is accessible from:</p>
+      <ul>
+        <li>The <strong>Tenant List</strong> page → <em>Setup</em> action in the action bar.</li>
+        <li>BC search: type <em>D4P BC Setup</em>.</li>
+      </ul>
+
+      <div class="callout callout--warn">
+        <div class="callout__title">Permission required</div>
+        You need the <code>D4P BC ADMIN</code> or <code>D4P BC SETUP</code> permission set to open and modify the Setup page.
+      </div>
+
+      <h2 id="fields">Configuration fields</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr><th>Field</th><th>Default</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Admin API Base URL</td>
+              <td><code>https://api.businesscentral.dynamics.com/admin/v2.28</code></td>
+              <td>
+                Base URL for all Business Central Admin Center API calls.
+                All environment lifecycle, backup, session, feature, and capacity calls
+                use this URL as the root.
+              </td>
+            </tr>
+            <tr>
+              <td>Automation API Base URL</td>
+              <td><code>https://api.businesscentral.dynamics.com/v2.0</code></td>
+              <td>
+                Base URL for BC Automation API calls. Used when fetching installed extensions.
+              </td>
+            </tr>
+            <tr>
+              <td>Customer Number Series</td>
+              <td><em>(blank)</em></td>
+              <td>
+                Number series used to auto-assign the <em>No.</em> field when creating new
+                Customer records. Must be set before creating the first customer.
+              </td>
+            </tr>
+            <tr>
+              <td>Debug Mode</td>
+              <td>Off</td>
+              <td>
+                When enabled, raw API request bodies and JSON responses are displayed in
+                <code>Message()</code> dialogs. Also shows KQL query text before execution.
+                <strong>Do not leave enabled in production.</strong>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="actions">Page actions</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Action</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Restore Defaults</td>
+              <td>Resets all fields to their shipped default values. Useful after accidental changes.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="debug">Debug Mode</h2>
+      <p>
+        Debug Mode is a development and troubleshooting aid. When active, the following
+        additional information is shown at runtime:
+      </p>
+      <ul>
+        <li>The full JSON request body sent to each API endpoint.</li>
+        <li>The raw JSON response received from the API.</li>
+        <li>The KQL query string (after token substitution) before it is sent to Application Insights.</li>
+        <li>Result row counts and target table IDs after telemetry query execution.</li>
+      </ul>
+      <div class="callout callout--danger">
+        <div class="callout__title">Security warning</div>
+        Debug messages expose internal API payloads which may contain sensitive data.
+        Enable debug mode only temporarily and in non-production environments.
+      </div>
+
+      <p>
+        To verify the current debug mode state, use the <em>Test Debug Mode</em> action
+        available on the Tenant List page. It invokes <code>D4P BC Debug Helper.TestDebugMode()</code>
+        which displays a message box with the current setting.
+      </p>
+
+      <h2 id="related">Related modules</h2>
+      <p>
+        The Setup module is used by virtually every other CCMS module.
+        All API helper codeunits call <code>GetAdminAPIBaseUrl()</code> or
+        <code>GetAutomationAPIBaseUrl()</code> before constructing API request URLs.
+      </p>
+
+    </div>
+  </main>
+</div>
+
+<footer class="footer">
+  &copy; Directions for Partners &bull; Cloud Customer Management Solution v0.0.2.0
+</footer>
+<script src="js/nav.js"></script>
+</body>
+</html>

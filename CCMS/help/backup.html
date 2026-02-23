@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Backup – CCMS Help</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <button class="topbar__menu-btn" aria-label="Toggle menu">&#9776;</button>
+  <a href="index.html" class="topbar__logo">
+    <div class="topbar__logo-icon">D4P</div>
+    <div>
+      <div class="topbar__product">CCMS Help</div>
+      <div class="topbar__subtitle">Cloud Customer Management Solution</div>
+    </div>
+  </a>
+  <div class="topbar__spacer"></div>
+  <span class="topbar__version">v0.0.2.0 · BC 27.0+</span>
+</header>
+
+<div class="shell">
+  <nav class="sidebar" aria-label="Help navigation">
+    <div class="sidebar__inner">
+      <span class="sidebar__section-title">Documentation</span>
+      <ul class="sidebar__nav">
+        <li><a href="index.html"><span class="nav-icon">🏠</span>Home</a></li>
+        <li><a href="getting-started.html"><span class="nav-icon">🚀</span>Getting Started</a></li>
+      </ul>
+      <span class="sidebar__section-title">Configuration</span>
+      <ul class="sidebar__nav">
+        <li><a href="setup.html"><span class="nav-icon">⚙️</span>Setup</a></li>
+        <li><a href="auth.html"><span class="nav-icon">🔐</span>Authentication</a></li>
+        <li><a href="permissions.html"><span class="nav-icon">🛡️</span>Permissions</a></li>
+      </ul>
+      <span class="sidebar__section-title">Core Data</span>
+      <ul class="sidebar__nav">
+        <li><a href="customer.html"><span class="nav-icon">🏢</span>Customers</a></li>
+        <li><a href="tenant.html"><span class="nav-icon">🌐</span>Tenants</a></li>
+        <li><a href="environment.html"><span class="nav-icon">🖥️</span>Environments</a></li>
+      </ul>
+      <span class="sidebar__section-title">Operations</span>
+      <ul class="sidebar__nav">
+        <li><a href="extension.html"><span class="nav-icon">🧩</span>Extensions</a></li>
+        <li><a href="backup.html"><span class="nav-icon">💾</span>Backup</a></li>
+        <li><a href="capacity.html"><span class="nav-icon">📊</span>Capacity</a></li>
+        <li><a href="features.html"><span class="nav-icon">🚦</span>Features</a></li>
+        <li><a href="session.html"><span class="nav-icon">👤</span>Sessions</a></li>
+        <li><a href="operation.html"><span class="nav-icon">⏳</span>Operations</a></li>
+      </ul>
+      <span class="sidebar__section-title">Advanced</span>
+      <ul class="sidebar__nav">
+        <li><a href="telemetry.html"><span class="nav-icon">📡</span>Telemetry</a></li>
+        <li><a href="general.html"><span class="nav-icon">🎛️</span>Role Center &amp; API</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="content">
+
+      <div class="page-header">
+        <div class="page-header__breadcrumb">
+          <a href="index.html">Home</a><span>›</span> Backup
+        </div>
+        <h1>Backup</h1>
+        <div class="page-header__meta">
+          <span class="badge badge--namespace">D4P.CCMS.Backup</span>
+        </div>
+      </div>
+
+      <p>
+        The Backup module allows administrators to trigger <strong>environment exports</strong>
+        to Azure Blob Storage and monitor the status and history of previous exports —
+        all from within Business Central using the BC Admin Center API.
+      </p>
+
+      <h2 id="prerequisites">Prerequisites</h2>
+      <p>
+        Before using the Backup feature, you must configure the following fields on the
+        <strong><a href="tenant.html">Tenant Card</a></strong>:
+      </p>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Field</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>Backup SAS URI</td><td>Full Azure Storage SAS URI with <em>write</em> permission to the target container.</td></tr>
+            <tr><td>Backup Container Name</td><td>Name of the Azure Blob container where exports will be stored.</td></tr>
+            <tr><td>Backup SAS Token Exp. Date</td><td>Used for expiry monitoring. Renew the SAS token before this date.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout--info">
+        <div class="callout__title">How to create a SAS URI</div>
+        In the Azure Portal, navigate to your storage account → the target blob container →
+        <em>Generate SAS</em>. Select <strong>Write</strong> and <strong>List</strong> permissions,
+        set an expiry date, and copy the full SAS URI.
+      </div>
+
+      <h2 id="export-workflow">How to back up an environment</h2>
+      <ol class="step-list">
+        <li><div><strong>Open the Environment Card</strong> for the environment you want to back up.</div></li>
+        <li><div><strong>Navigate to Backups</strong> via the <em>Backups</em> action or FactBox.</div></li>
+        <li><div><strong>Click Export</strong>. CCMS calls the Admin API to initiate an environment export to the Azure Storage container configured on the tenant.</div></li>
+        <li><div><strong>Monitor status</strong> using the <em>Refresh</em> action on the Backup list. The export runs asynchronously.</div></li>
+        <li><div>When the status is <span class="status status--active">Succeeded</span>, the <em>Download URL</em> becomes available. Click <em>Open Download URL</em> to access the exported file.</div></li>
+      </ol>
+
+      <h2 id="status">Export status values</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Status</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td><span class="status status--pending">Pending</span></td><td>Export has been requested but the Admin API has not yet started it.</td></tr>
+            <tr><td><span class="status status--inactive">InProgress</span></td><td>Export is currently running. Refresh periodically to check completion.</td></tr>
+            <tr><td><span class="status status--active">Succeeded</span></td><td>Export completed. The download URL is valid until <em>Expires At</em>.</td></tr>
+            <tr><td><span class="status status--error">Failed</span></td><td>Export failed. Check the Admin Center for details and try again.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout--warn">
+        <div class="callout__title">Download URL expiry</div>
+        The download URL for the exported backup file expires at the <em>Expires At</em> datetime.
+        Download the file to permanent storage before that time if long-term retention is required.
+      </div>
+
+      <h2 id="fields">Backup history fields</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Field</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>Entry No.</td><td>Auto-incremented sequence key.</td></tr>
+            <tr><td>Created At</td><td>DateTime when the export was initiated.</td></tr>
+            <tr><td>Status</td><td>Current status of the export operation.</td></tr>
+            <tr><td>Download URL</td><td>Azure Blob URL for downloading the exported file.</td></tr>
+            <tr><td>Expires At</td><td>Expiry DateTime of the download URL.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="related">Related modules</h2>
+      <ul>
+        <li><a href="tenant.html">Tenants</a> – Azure Storage SAS credentials are configured on the Tenant record.</li>
+        <li><a href="environment.html">Environments</a> – backups are scoped to a specific environment, accessible from the Environment Card.</li>
+      </ul>
+
+    </div>
+  </main>
+</div>
+
+<footer class="footer">
+  &copy; Directions for Partners &bull; Cloud Customer Management Solution v0.0.2.0
+</footer>
+<script src="js/nav.js"></script>
+</body>
+</html>

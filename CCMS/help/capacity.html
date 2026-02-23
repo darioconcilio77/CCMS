@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Capacity – CCMS Help</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <button class="topbar__menu-btn" aria-label="Toggle menu">&#9776;</button>
+  <a href="index.html" class="topbar__logo">
+    <div class="topbar__logo-icon">D4P</div>
+    <div>
+      <div class="topbar__product">CCMS Help</div>
+      <div class="topbar__subtitle">Cloud Customer Management Solution</div>
+    </div>
+  </a>
+  <div class="topbar__spacer"></div>
+  <span class="topbar__version">v0.0.2.0 · BC 27.0+</span>
+</header>
+
+<div class="shell">
+  <nav class="sidebar" aria-label="Help navigation">
+    <div class="sidebar__inner">
+      <span class="sidebar__section-title">Documentation</span>
+      <ul class="sidebar__nav">
+        <li><a href="index.html"><span class="nav-icon">🏠</span>Home</a></li>
+        <li><a href="getting-started.html"><span class="nav-icon">🚀</span>Getting Started</a></li>
+      </ul>
+      <span class="sidebar__section-title">Configuration</span>
+      <ul class="sidebar__nav">
+        <li><a href="setup.html"><span class="nav-icon">⚙️</span>Setup</a></li>
+        <li><a href="auth.html"><span class="nav-icon">🔐</span>Authentication</a></li>
+        <li><a href="permissions.html"><span class="nav-icon">🛡️</span>Permissions</a></li>
+      </ul>
+      <span class="sidebar__section-title">Core Data</span>
+      <ul class="sidebar__nav">
+        <li><a href="customer.html"><span class="nav-icon">🏢</span>Customers</a></li>
+        <li><a href="tenant.html"><span class="nav-icon">🌐</span>Tenants</a></li>
+        <li><a href="environment.html"><span class="nav-icon">🖥️</span>Environments</a></li>
+      </ul>
+      <span class="sidebar__section-title">Operations</span>
+      <ul class="sidebar__nav">
+        <li><a href="extension.html"><span class="nav-icon">🧩</span>Extensions</a></li>
+        <li><a href="backup.html"><span class="nav-icon">💾</span>Backup</a></li>
+        <li><a href="capacity.html"><span class="nav-icon">📊</span>Capacity</a></li>
+        <li><a href="features.html"><span class="nav-icon">🚦</span>Features</a></li>
+        <li><a href="session.html"><span class="nav-icon">👤</span>Sessions</a></li>
+        <li><a href="operation.html"><span class="nav-icon">⏳</span>Operations</a></li>
+      </ul>
+      <span class="sidebar__section-title">Advanced</span>
+      <ul class="sidebar__nav">
+        <li><a href="telemetry.html"><span class="nav-icon">📡</span>Telemetry</a></li>
+        <li><a href="general.html"><span class="nav-icon">🎛️</span>Role Center &amp; API</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="content">
+
+      <div class="page-header">
+        <div class="page-header__breadcrumb">
+          <a href="index.html">Home</a><span>›</span> Capacity
+        </div>
+        <h1>Capacity</h1>
+        <div class="page-header__meta">
+          <span class="badge badge--namespace">D4P.CCMS.Capacity</span>
+        </div>
+      </div>
+
+      <p>
+        The Capacity module monitors <strong>storage consumption</strong> for Business Central
+        environments, fetching data from the Admin Center API. Results are presented in a
+        worksheet view that can span multiple environments in a single tenant.
+      </p>
+
+      <h2 id="data-model">Data model</h2>
+      <p>
+        Capacity data is stored in two tables forming a header/detail relationship:
+      </p>
+      <div class="data-model">D4P BC Capacity Header  (one per environment snapshot)
+  └── D4P BC Capacity Line   (one per storage category)</div>
+
+      <h3>Capacity Header fields</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Field</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>Customer No.</td><td>Reference to the customer.</td></tr>
+            <tr><td>Tenant ID</td><td>Reference to the Entra tenant.</td></tr>
+            <tr><td>Environment Name</td><td>Name of the BC environment.</td></tr>
+            <tr><td>Last Updated</td><td>DateTime when capacity data was last refreshed from the API.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Capacity Line fields</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Field</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>Storage Type</td><td>Category of storage (e.g. <em>Database</em>, <em>File</em>).</td></tr>
+            <tr><td>Used (GB)</td><td>Storage currently consumed in gigabytes.</td></tr>
+            <tr><td>Allowed (GB)</td><td>Storage allowance (limit) in gigabytes for this category.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="worksheet">Capacity Worksheet</h2>
+      <p>
+        The <strong>Capacity Worksheet</strong> is the main view. It shows one header row per
+        environment with a subform displaying the breakdown by storage category (Database, File, etc.).
+      </p>
+      <p><strong>Refresh action</strong> – re-fetches capacity data from the Admin API for all environments
+      currently in view and updates the <em>Last Updated</em> timestamp.</p>
+
+      <h2 id="navigation">Navigation</h2>
+      <p>Access the Capacity Worksheet from:</p>
+      <ul>
+        <li>The <strong>Tenant Card → Capacity</strong> action (filtered to that tenant's environments).</li>
+        <li>The <strong>Tenant List → Capacity</strong> action.</li>
+      </ul>
+
+      <h2 id="howto">How to check storage usage</h2>
+      <ol class="step-list">
+        <li><div><strong>Open the Tenant Card</strong> for the customer whose storage you want to review.</div></li>
+        <li><div><strong>Click the Capacity action</strong> in the action bar. The Capacity Worksheet opens, filtered to this tenant.</div></li>
+        <li><div><strong>Click Refresh</strong> to pull the latest data from the Admin API.</div></li>
+        <li><div><strong>Expand each environment header</strong> to see the breakdown by storage category (Database vs. File storage).</div></li>
+        <li><div>Environments approaching their allowed limit will show <em>Used (GB)</em> close to <em>Allowed (GB)</em>. Contact the customer to discuss storage upgrade if needed.</div></li>
+      </ol>
+
+      <div class="callout callout--info">
+        <div class="callout__title">API note</div>
+        The Admin API call <code>GET .../environments/*/capacity</code> returns capacity for
+        all environments in the tenant in a single request. CCMS populates both the header
+        and line tables from this response.
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<footer class="footer">
+  &copy; Directions for Partners &bull; Cloud Customer Management Solution v0.0.2.0
+</footer>
+<script src="js/nav.js"></script>
+</body>
+</html>

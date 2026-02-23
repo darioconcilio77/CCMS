@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CCMS Help – Cloud Customer Management Solution</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ── Top Bar ──────────────────────────────────────────── -->
+<header class="topbar">
+  <button class="topbar__menu-btn" aria-label="Toggle menu">&#9776;</button>
+  <a href="index.html" class="topbar__logo">
+    <div class="topbar__logo-icon">D4P</div>
+    <div>
+      <div class="topbar__product">CCMS Help</div>
+      <div class="topbar__subtitle">Cloud Customer Management Solution</div>
+    </div>
+  </a>
+  <div class="topbar__spacer"></div>
+  <span class="topbar__version">v0.0.2.0 · BC 27.0+</span>
+</header>
+
+<!-- ── Shell ────────────────────────────────────────────── -->
+<div class="shell">
+
+  <!-- Sidebar -->
+  <nav class="sidebar" aria-label="Help navigation">
+    <div class="sidebar__inner">
+
+      <span class="sidebar__section-title">Documentation</span>
+      <ul class="sidebar__nav">
+        <li><a href="index.html"><span class="nav-icon">🏠</span>Home</a></li>
+        <li><a href="getting-started.html"><span class="nav-icon">🚀</span>Getting Started</a></li>
+      </ul>
+
+      <span class="sidebar__section-title">Configuration</span>
+      <ul class="sidebar__nav">
+        <li><a href="setup.html"><span class="nav-icon">⚙️</span>Setup</a></li>
+        <li><a href="auth.html"><span class="nav-icon">🔐</span>Authentication</a></li>
+        <li><a href="permissions.html"><span class="nav-icon">🛡️</span>Permissions</a></li>
+      </ul>
+
+      <span class="sidebar__section-title">Core Data</span>
+      <ul class="sidebar__nav">
+        <li><a href="customer.html"><span class="nav-icon">🏢</span>Customers</a></li>
+        <li><a href="tenant.html"><span class="nav-icon">🌐</span>Tenants</a></li>
+        <li><a href="environment.html"><span class="nav-icon">🖥️</span>Environments</a></li>
+      </ul>
+
+      <span class="sidebar__section-title">Operations</span>
+      <ul class="sidebar__nav">
+        <li><a href="extension.html"><span class="nav-icon">🧩</span>Extensions</a></li>
+        <li><a href="backup.html"><span class="nav-icon">💾</span>Backup</a></li>
+        <li><a href="capacity.html"><span class="nav-icon">📊</span>Capacity</a></li>
+        <li><a href="features.html"><span class="nav-icon">🚦</span>Features</a></li>
+        <li><a href="session.html"><span class="nav-icon">👤</span>Sessions</a></li>
+        <li><a href="operation.html"><span class="nav-icon">⏳</span>Operations</a></li>
+      </ul>
+
+      <span class="sidebar__section-title">Advanced</span>
+      <ul class="sidebar__nav">
+        <li><a href="telemetry.html"><span class="nav-icon">📡</span>Telemetry</a></li>
+        <li><a href="general.html"><span class="nav-icon">🎛️</span>Role Center &amp; API</a></li>
+      </ul>
+
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <main class="main" id="main-content">
+    <div class="content">
+
+      <!-- Hero -->
+      <section class="hero">
+        <h1>Cloud Customer Management Solution</h1>
+        <p>
+          Administer multiple Dynamics 365 Business Central environments at scale
+          — directly from within a single BC company. Unified control over customers,
+          tenants, environments, extensions, backups, sessions, capacity, features,
+          and telemetry.
+        </p>
+        <div class="hero__meta">
+          <span class="hero__chip">Publisher: Directions for Partners</span>
+          <span class="hero__chip">Version 0.0.2.0</span>
+          <span class="hero__chip">BC Runtime 16.0 (App 27.0+)</span>
+          <span class="hero__chip">Object range 62000 – 62049</span>
+        </div>
+      </section>
+
+      <!-- Quick start -->
+      <h2 id="quickstart">Quick paths</h2>
+      <div class="card-grid">
+        <a class="card" href="getting-started.html">
+          <div class="card__icon">🚀</div>
+          <div class="card__title">Getting Started</div>
+          <div class="card__desc">First-time installation, permission assignment, and mandatory setup steps.</div>
+        </a>
+        <a class="card" href="setup.html">
+          <div class="card__icon">⚙️</div>
+          <div class="card__title">Setup</div>
+          <div class="card__desc">Configure API base URLs, number series, and debug mode.</div>
+        </a>
+        <a class="card" href="auth.html">
+          <div class="card__icon">🔐</div>
+          <div class="card__title">Authentication</div>
+          <div class="card__desc">Create Entra App Registrations and store client secrets securely.</div>
+        </a>
+        <a class="card" href="permissions.html">
+          <div class="card__icon">🛡️</div>
+          <div class="card__title">Permissions</div>
+          <div class="card__desc">Understand the four permission sets and assign them to users.</div>
+        </a>
+      </div>
+
+      <h2 id="modules">All modules</h2>
+      <div class="card-grid">
+        <a class="card" href="customer.html">
+          <div class="card__icon">🏢</div>
+          <div class="card__title">Customers</div>
+          <div class="card__desc">Top-level entity grouping Entra tenants and environments.</div>
+          <div class="card__tag"><span class="badge badge--namespace">D4P.CCMS.Customer</span></div>
+        </a>
+        <a class="card" href="tenant.html">
+          <div class="card__icon">🌐</div>
+          <div class="card__title">Tenants</div>
+          <div class="card__desc">Link customers to Microsoft Entra tenants; configure auth and backup storage.</div>
+          <div class="card__tag"><span class="badge badge--namespace">D4P.CCMS.Tenant</span></div>
+        </a>
+        <a class="card" href="environment.html">
+          <div class="card__icon">🖥️</div>
+          <div class="card__title">Environments</div>
+          <div class="card__desc">Full lifecycle management of BC environments via Admin Center API.</div>
+          <div class="card__tag"><span class="badge badge--namespace">D4P.CCMS.Environment</span></div>
+        </a>
+        <a class="card" href="extension.html">
+          <div class="card__icon">🧩</div>
+          <div class="card__title">Extensions</div>
+          <div class="card__desc">Discover installed apps, check for updates, and manage PTE object ranges.</div>
+          <div class="card__tag"><span class="badge badge--namespace">D4P.CCMS.Extension</span></div>
+        </a>
+        <a class="card" href="backup.html">
+          <div class="card__icon">💾</div>
+          <div class="card__title">Backup</div>
+          <div class="card__desc">Export BC environments to Azure Blob Storage and monitor backup history.</div>
+          <div class="card__tag"><span class="badge badge--namespace">D4P.CCMS.Backup</span></div>
+        </a>
+        <a class="card" href="capacity.html">
+          <div class="card__icon">📊</div>
+          <div class="card__title">Capacity</div>
+          <div class="card__desc">Monitor storage consumption across all BC environments in a worksheet view.</div>
+          <div class="card__tag"><span class="badge badge--namespace">D4P.CCMS.Capacity</span></div>
+        </a>
+        <a class="card" href="features.html">
+          <div class="card__icon">🚦</div>
+          <div class="card__title">Features</div>
+          <div class="card__desc">View and toggle BC feature flags per environment via Admin API.</div>
+          <div class="card__tag"><span class="badge badge--namespace">D4P.CCMS.Features</span></div>
+        </a>
+        <a class="card" href="session.html">
+          <div class="card__icon">👤</div>
+          <div class="card__title">Sessions</div>
+          <div class="card__desc">Monitor active user sessions and terminate hanging sessions remotely.</div>
+          <div class="card__tag"><span class="badge badge--namespace">D4P.CCMS.Session</span></div>
+        </a>
+        <a class="card" href="operation.html">
+          <div class="card__icon">⏳</div>
+          <div class="card__title">Operations</div>
+          <div class="card__desc">Track long-running async Admin API operations (create, copy, update).</div>
+          <div class="card__tag"><span class="badge badge--namespace">D4P.CCMS.Operations</span></div>
+        </a>
+        <a class="card" href="telemetry.html">
+          <div class="card__icon">📡</div>
+          <div class="card__title">Telemetry</div>
+          <div class="card__desc">Run KQL queries against Azure Application Insights from within BC.</div>
+          <div class="card__tag"><span class="badge badge--namespace">D4P.CCMS.Telemetry</span></div>
+        </a>
+        <a class="card" href="general.html">
+          <div class="card__icon">🎛️</div>
+          <div class="card__title">Role Center &amp; API</div>
+          <div class="card__desc">Role Center, cue tiles, headline, and the shared API helper codeunit.</div>
+          <div class="card__tag"><span class="badge badge--namespace">D4P.CCMS.General</span></div>
+        </a>
+      </div>
+
+      <!-- Data model -->
+      <h2 id="datamodel">Data hierarchy</h2>
+      <div class="data-model">D4P BC Customer
+  └── D4P BC Tenant  (Customer No. + Tenant ID)
+          ├── D4P BC Environment  (Customer No. + Tenant ID + Name)
+          │       ├── D4P BC Installed App
+          │       ├── D4P BC Environment Backup
+          │       ├── D4P BC Capacity Header / Line
+          │       ├── D4P BC Environment Feature
+          │       ├── D4P BC Environment Session
+          │       ├── D4P BC Available Update
+          │       └── D4P BC Environment Operation
+          └── D4P PTE Object Range</div>
+
+      <!-- API overview -->
+      <h2 id="api">API integration overview</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr><th>API</th><th>Base URL</th><th>Used for</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>BC Admin Center API v2.28</td>
+              <td><code>https://api.businesscentral.dynamics.com/admin/v2.28</code></td>
+              <td>Environments, updates, backups, sessions, features, capacity</td>
+            </tr>
+            <tr>
+              <td>BC Automation API v2.0</td>
+              <td><code>https://api.businesscentral.dynamics.com/v2.0</code></td>
+              <td>Installed extensions, scheduled jobs</td>
+            </tr>
+            <tr>
+              <td>Azure Application Insights REST</td>
+              <td>From connection string per environment</td>
+              <td>KQL telemetry queries</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout--info">
+        <div class="callout__title">Authentication</div>
+        All API calls use <strong>OAuth 2.0 client credentials flow</strong> via Microsoft Entra app registrations.
+        Client secrets are stored in BC <strong>Isolated Storage</strong> (encrypted at rest, never visible in plain-text queries).
+        See <a href="auth.html">Authentication</a> for configuration details.
+      </div>
+
+    </div><!-- /.content -->
+  </main>
+</div><!-- /.shell -->
+
+<footer class="footer">
+  &copy; Directions for Partners &bull; Cloud Customer Management Solution v0.0.2.0 &bull; BC 27.0+
+</footer>
+
+<script src="js/nav.js"></script>
+</body>
+</html>

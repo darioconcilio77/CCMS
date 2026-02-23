@@ -1,0 +1,18 @@
+# AL Language / Business Central
+
+# Symbols and packages
+*.app
+.alpackages/
+.snapshots/
+
+# VS Code
+.vscode/launch.json
+
+# Translations (generated)
+Translations/*.g.xlf
+
+# Temp / OS files
+*.tmp
+*.bak
+Thumbs.db
+.DS_Store

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tenants – CCMS Help</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <button class="topbar__menu-btn" aria-label="Toggle menu">&#9776;</button>
+  <a href="index.html" class="topbar__logo">
+    <div class="topbar__logo-icon">D4P</div>
+    <div>
+      <div class="topbar__product">CCMS Help</div>
+      <div class="topbar__subtitle">Cloud Customer Management Solution</div>
+    </div>
+  </a>
+  <div class="topbar__spacer"></div>
+  <span class="topbar__version">v0.0.2.0 · BC 27.0+</span>
+</header>
+
+<div class="shell">
+  <nav class="sidebar" aria-label="Help navigation">
+    <div class="sidebar__inner">
+      <span class="sidebar__section-title">Documentation</span>
+      <ul class="sidebar__nav">
+        <li><a href="index.html"><span class="nav-icon">🏠</span>Home</a></li>
+        <li><a href="getting-started.html"><span class="nav-icon">🚀</span>Getting Started</a></li>
+      </ul>
+      <span class="sidebar__section-title">Configuration</span>
+      <ul class="sidebar__nav">
+        <li><a href="setup.html"><span class="nav-icon">⚙️</span>Setup</a></li>
+        <li><a href="auth.html"><span class="nav-icon">🔐</span>Authentication</a></li>
+        <li><a href="permissions.html"><span class="nav-icon">🛡️</span>Permissions</a></li>
+      </ul>
+      <span class="sidebar__section-title">Core Data</span>
+      <ul class="sidebar__nav">
+        <li><a href="customer.html"><span class="nav-icon">🏢</span>Customers</a></li>
+        <li><a href="tenant.html"><span class="nav-icon">🌐</span>Tenants</a></li>
+        <li><a href="environment.html"><span class="nav-icon">🖥️</span>Environments</a></li>
+      </ul>
+      <span class="sidebar__section-title">Operations</span>
+      <ul class="sidebar__nav">
+        <li><a href="extension.html"><span class="nav-icon">🧩</span>Extensions</a></li>
+        <li><a href="backup.html"><span class="nav-icon">💾</span>Backup</a></li>
+        <li><a href="capacity.html"><span class="nav-icon">📊</span>Capacity</a></li>
+        <li><a href="features.html"><span class="nav-icon">🚦</span>Features</a></li>
+        <li><a href="session.html"><span class="nav-icon">👤</span>Sessions</a></li>
+        <li><a href="operation.html"><span class="nav-icon">⏳</span>Operations</a></li>
+      </ul>
+      <span class="sidebar__section-title">Advanced</span>
+      <ul class="sidebar__nav">
+        <li><a href="telemetry.html"><span class="nav-icon">📡</span>Telemetry</a></li>
+        <li><a href="general.html"><span class="nav-icon">🎛️</span>Role Center &amp; API</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="content">
+
+      <div class="page-header">
+        <div class="page-header__breadcrumb">
+          <a href="index.html">Home</a><span>›</span> Tenants
+        </div>
+        <h1>Tenants</h1>
+        <div class="page-header__meta">
+          <span class="badge badge--namespace">D4P.CCMS.Tenant</span>
+          <span class="badge badge--module">Table 62001</span>
+        </div>
+      </div>
+
+      <p>
+        A <strong>Tenant</strong> record links a <a href="customer.html">Customer</a> to a specific
+        Microsoft Entra tenant (Azure AD directory). Each tenant stores the
+        <strong>authentication configuration</strong> for BC Admin Center API access and the
+        <strong>Azure Storage configuration</strong> for environment backups.
+      </p>
+
+      <h2 id="key">Primary key</h2>
+      <p><code>Customer No.</code> + <code>Tenant ID</code> (Entra Directory/Tenant GUID)</p>
+
+      <h2 id="fields">Tenant fields</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>Customer No.</td><td>Code[20]</td><td>Reference to <code>D4P BC Customer</code>. Part of the primary key.</td></tr>
+            <tr><td>Tenant ID</td><td>Guid</td><td>Microsoft Entra Directory (Tenant) GUID. Part of the primary key.</td></tr>
+            <tr><td>Tenant Name</td><td>Text[100]</td><td>Descriptive name (e.g. the customer's primary domain).</td></tr>
+            <tr><td>App Registration Type</td><td>Enum</td><td><em>Individual</em> or <em>Shared</em>. Controls how API authentication credentials are resolved.</td></tr>
+            <tr><td>Client ID <em>(Shared)</em></td><td>Guid</td><td>References a <code>D4P BC App Registration</code> when type = Shared.</td></tr>
+            <tr><td>Client ID <em>(Individual)</em></td><td>Guid</td><td>Dedicated Entra App (Client) ID for this tenant only.</td></tr>
+            <tr><td>Secret Expiration Date</td><td>Date</td><td>Expiry of the individual client secret. Colour-coded on the card (green / amber / red).</td></tr>
+            <tr><td>Backup SAS URI</td><td>Text[250]</td><td>Azure Storage SAS URI for the backup container.</td></tr>
+            <tr><td>Backup Container Name</td><td>Text[250]</td><td>Name of the Azure Blob container used for environment exports.</td></tr>
+            <tr><td>Backup SAS Token Exp. Date</td><td>Date</td><td>Expiry of the SAS token. Colour-coded — renew before it expires to keep backups working.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="auth-tab">Authentication tab</h2>
+      <p>
+        The <strong>Authentication</strong> tab on the Tenant Card controls how CCMS obtains
+        access tokens for API calls to this tenant's BC environments.
+      </p>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Type</th><th>Fields shown</th><th>Behaviour</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Shared</strong></td>
+              <td>Client ID lookup → App Registration list</td>
+              <td>Credentials are read from the selected <code>D4P BC App Registration</code> record. Suitable when one Entra app covers multiple tenants (e.g. CSP multi-tenant).</td>
+            </tr>
+            <tr>
+              <td><strong>Individual</strong></td>
+              <td>Client ID (Guid) + masked secret input + expiration date</td>
+              <td>A dedicated app registration per tenant. The secret is stored in BC Isolated Storage keyed by this Client ID.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="backup-tab">Backup configuration tab</h2>
+      <p>Configure these fields before using the <a href="backup.html">Backup</a> feature:</p>
+      <ul>
+        <li><strong>Backup SAS URI</strong> – full Azure Storage SAS URI with write permission to the target container.</li>
+        <li><strong>Backup Container Name</strong> – the blob container name where exports will be stored.</li>
+        <li><strong>Backup SAS Token Exp. Date</strong> – monitors token validity with colour-coded warnings.</li>
+      </ul>
+
+      <div class="callout callout--warn">
+        <div class="callout__title">SAS token expiry</div>
+        If the SAS token expires, environment export requests will fail silently with an API error.
+        Monitor the <em>Backup SAS Token Exp. Date</em> field and renew the token before expiry.
+      </div>
+
+      <h2 id="actions">Tenant List actions</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Action</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>Admin Center</td><td>Opens <code>https://businesscentral.dynamics.com/{TenantID}/admin</code> in the browser.</td></tr>
+            <tr><td>Environments</td><td>Navigates to the Environment List filtered by this tenant.</td></tr>
+            <tr><td>Capacity</td><td>Opens the Capacity Worksheet filtered by this tenant.</td></tr>
+            <tr><td>PTE Object Ranges</td><td>Opens the PTE Object Ranges list for this tenant.</td></tr>
+            <tr><td>Setup</td><td>Opens the global CCMS Setup page.</td></tr>
+            <tr><td>Test Debug Mode</td><td>Displays current debug mode status (for troubleshooting).</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="expiry">Expiry colour coding</h2>
+      <p>Both the secret expiration and the SAS token expiration fields use the same colour scheme:</p>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Colour</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td><span class="status status--active">Green</span></td><td>More than 30 days until expiry.</td></tr>
+            <tr><td><span class="status status--inactive">Amber</span></td><td>Expiry within 30 days — schedule renewal.</td></tr>
+            <tr><td><span class="status status--error">Red</span></td><td>Expired — API calls or backup operations will fail.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="related">Related modules</h2>
+      <ul>
+        <li><a href="customer.html">Customers</a> – each tenant belongs to exactly one customer.</li>
+        <li><a href="auth.html">Authentication</a> – Shared model references <code>D4P BC App Registration</code>.</li>
+        <li><a href="environment.html">Environments</a> – environments are children of tenants.</li>
+        <li><a href="backup.html">Backup</a> – uses SAS URI/container configured here.</li>
+      </ul>
+
+    </div>
+  </main>
+</div>
+
+<footer class="footer">
+  &copy; Directions for Partners &bull; Cloud Customer Management Solution v0.0.2.0
+</footer>
+<script src="js/nav.js"></script>
+</body>
+</html>

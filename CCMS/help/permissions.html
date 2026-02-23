@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Permissions – CCMS Help</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <button class="topbar__menu-btn" aria-label="Toggle menu">&#9776;</button>
+  <a href="index.html" class="topbar__logo">
+    <div class="topbar__logo-icon">D4P</div>
+    <div>
+      <div class="topbar__product">CCMS Help</div>
+      <div class="topbar__subtitle">Cloud Customer Management Solution</div>
+    </div>
+  </a>
+  <div class="topbar__spacer"></div>
+  <span class="topbar__version">v0.0.2.0 · BC 27.0+</span>
+</header>
+
+<div class="shell">
+  <nav class="sidebar" aria-label="Help navigation">
+    <div class="sidebar__inner">
+      <span class="sidebar__section-title">Documentation</span>
+      <ul class="sidebar__nav">
+        <li><a href="index.html"><span class="nav-icon">🏠</span>Home</a></li>
+        <li><a href="getting-started.html"><span class="nav-icon">🚀</span>Getting Started</a></li>
+      </ul>
+      <span class="sidebar__section-title">Configuration</span>
+      <ul class="sidebar__nav">
+        <li><a href="setup.html"><span class="nav-icon">⚙️</span>Setup</a></li>
+        <li><a href="auth.html"><span class="nav-icon">🔐</span>Authentication</a></li>
+        <li><a href="permissions.html"><span class="nav-icon">🛡️</span>Permissions</a></li>
+      </ul>
+      <span class="sidebar__section-title">Core Data</span>
+      <ul class="sidebar__nav">
+        <li><a href="customer.html"><span class="nav-icon">🏢</span>Customers</a></li>
+        <li><a href="tenant.html"><span class="nav-icon">🌐</span>Tenants</a></li>
+        <li><a href="environment.html"><span class="nav-icon">🖥️</span>Environments</a></li>
+      </ul>
+      <span class="sidebar__section-title">Operations</span>
+      <ul class="sidebar__nav">
+        <li><a href="extension.html"><span class="nav-icon">🧩</span>Extensions</a></li>
+        <li><a href="backup.html"><span class="nav-icon">💾</span>Backup</a></li>
+        <li><a href="capacity.html"><span class="nav-icon">📊</span>Capacity</a></li>
+        <li><a href="features.html"><span class="nav-icon">🚦</span>Features</a></li>
+        <li><a href="session.html"><span class="nav-icon">👤</span>Sessions</a></li>
+        <li><a href="operation.html"><span class="nav-icon">⏳</span>Operations</a></li>
+      </ul>
+      <span class="sidebar__section-title">Advanced</span>
+      <ul class="sidebar__nav">
+        <li><a href="telemetry.html"><span class="nav-icon">📡</span>Telemetry</a></li>
+        <li><a href="general.html"><span class="nav-icon">🎛️</span>Role Center &amp; API</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="content">
+
+      <div class="page-header">
+        <div class="page-header__breadcrumb">
+          <a href="index.html">Home</a><span>›</span> Permissions
+        </div>
+        <h1>Permissions</h1>
+        <div class="page-header__meta">
+          <span class="badge badge--namespace">D4P.CCMS.Permissions</span>
+        </div>
+      </div>
+
+      <p>
+        CCMS ships four assignable permission sets. Assign one or more to each user
+        or user group based on the access level required.
+      </p>
+
+      <h2 id="sets">Permission sets</h2>
+
+      <h3 id="admin">D4P BC ADMIN – Full Access</h3>
+      <p>
+        Intended for <strong>administrators</strong> who manage customers, tenants, environments,
+        and all operational features. This is the most powerful CCMS role.
+      </p>
+      <ul>
+        <li><strong>RIMD</strong> (Read, Insert, Modify, Delete) on all CCMS data tables.</li>
+        <li><strong>X</strong> (Execute) rights on all codeunits, pages, and reports.</li>
+      </ul>
+      <div class="callout callout--warn">
+        <div class="callout__title">Least privilege</div>
+        Grant <code>D4P BC ADMIN</code> only to users who need to trigger administrative API operations
+        (environment creation, session termination, updates, backups). For read-only access, use
+        <code>D4P BC ADMIN READ</code>.
+      </div>
+
+      <h3 id="admin-read">D4P BC ADMIN READ – Read Only Access</h3>
+      <p>
+        Intended for users who need to <strong>view</strong> operational data without being able to
+        modify configuration or trigger any API actions.
+      </p>
+      <ul>
+        <li><strong>R</strong> (Read) on most CCMS data tables.</li>
+        <li><strong>RIMD</strong> on KQL result tables (page executions, report executions, slow AL methods,
+          extension lifecycle) — these are written during in-session telemetry queries.</li>
+      </ul>
+
+      <h3 id="setup">D4P BC SETUP – Setup Only</h3>
+      <p>
+        Grants access limited to the <strong>Setup table and page only</strong>. Suitable for users
+        responsible solely for maintaining global settings (API URLs, number series, debug mode).
+      </p>
+
+      <h3 id="telemetry">D4P BC TELEMETRY – Telemetry Only</h3>
+      <p>
+        Grants access to all telemetry-related objects. Intended for users who run and analyse
+        Application Insights KQL queries without access to environment administration.
+      </p>
+      <ul>
+        <li>RIMD on <code>D4P AppInsights Connection</code> and <code>D4P KQL Query Store</code>.</li>
+        <li>RIMD on all KQL result tables.</li>
+        <li>Execute on telemetry pages, codeunits, and the <em>D4P Load Data</em> report.</li>
+      </ul>
+
+      <h2 id="matrix">Permission matrix</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Object category</th>
+              <th>ADMIN</th>
+              <th>ADMIN READ</th>
+              <th>SETUP</th>
+              <th>TELEMETRY</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Customers, Tenants, App Registrations</td><td>RIMD</td><td>R</td><td>–</td><td>–</td></tr>
+            <tr><td>Environments, Installed Apps</td><td>RIMD</td><td>R</td><td>–</td><td>–</td></tr>
+            <tr><td>Backups, Capacity, Features, Sessions</td><td>RIMD</td><td>R</td><td>–</td><td>–</td></tr>
+            <tr><td>Operations</td><td>RIMD</td><td>R</td><td>–</td><td>–</td></tr>
+            <tr><td>Setup table &amp; page</td><td>RIMD</td><td>R</td><td>RIMD</td><td>–</td></tr>
+            <tr><td>KQL result tables</td><td>RIMD</td><td>RIMD</td><td>–</td><td>RIMD</td></tr>
+            <tr><td>Telemetry objects</td><td>X</td><td>X</td><td>–</td><td>RIMD + X</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="assign">Assigning permissions</h2>
+      <ol class="step-list">
+        <li><div><strong>Go to Users</strong> in BC and open the target user's card.</div></li>
+        <li><div><strong>Expand the <em>User Permission Sets</em> FastTab</strong> and add the relevant set.<br/>
+          Use <code>D4P BC ADMIN</code> for full administrative access.</div></li>
+        <li><div><strong>Sign the user out and back in</strong> so the new permissions take effect.</div></li>
+      </ol>
+
+      <div class="callout callout--info">
+        <div class="callout__title">User groups</div>
+        All four permission sets are assignable via User Groups in BC. This is the recommended
+        approach when managing permissions for multiple administrators.
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<footer class="footer">
+  &copy; Directions for Partners &bull; Cloud Customer Management Solution v0.0.2.0
+</footer>
+<script src="js/nav.js"></script>
+</body>
+</html>
