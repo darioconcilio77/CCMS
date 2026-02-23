@@ -87,7 +87,7 @@ page 62000 "D4P BC Customers List"
                 begin
                     CustomerList.LookupMode(true);
                     CustomerList.SetTableView(Customer);
-                    if CustomerList.RunModal() = Action::OK then begin
+                    if CustomerList.RunModal() = Action::LookupOK then begin
 
                         CustomerList.GetRecord(Customer);
 
