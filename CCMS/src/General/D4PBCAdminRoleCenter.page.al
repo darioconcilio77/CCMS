@@ -3,6 +3,7 @@ namespace D4P.CCMS.General;
 using D4P.CCMS.Capacity;
 using D4P.CCMS.Customer;
 using D4P.CCMS.Environment;
+using D4P.CCMS.Auth;
 using D4P.CCMS.Extension;
 using D4P.CCMS.Setup;
 using D4P.CCMS.Tenant;
@@ -53,6 +54,18 @@ page 62049 "D4P BC Admin Role Center"
                 Caption = 'Installed Apps';
                 RunObject = Page "D4P BC Installed Apps List";
                 ToolTip = 'View installed apps across all environments';
+            }
+            action("App Registrations")
+            {
+                Caption = 'App Registrations';
+                RunObject = Page "D4P BC App Registration List";
+                ToolTip = 'View or manage Microsoft Entra app registrations used for API authentication';
+            }
+            action(Capacity)
+            {
+                Caption = 'Capacity';
+                RunObject = Page "D4P BC Capacity List";
+                ToolTip = 'View storage capacity and usage across environments';
             }
         }
         area(Processing)
